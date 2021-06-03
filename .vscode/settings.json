@@ -1,6 +1,14 @@
 {
-  "editor.codeActionsOnSave": { "source.fixAll.eslint": true }, 
-  "editor.formatOnSave": true, 
-  "eslint.alwaysShowStatus": true, 
-  "files.autoSave": "onFocusChange"
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": true
+  },
+  "editor.formatOnSave": true,
+  "eslint.alwaysShowStatus": true,
+  "files.autoSave": "onFocusChange",
+  "javascript.format.semicolons": "insert",
+  "javascript.format.insertSpaceAfterCommaDelimiter": true,
+  "javascript.preferences.quoteStyle": "double",
+  "typescript.format.semicolons": "insert",
+  "typescript.format.insertSpaceAfterCommaDelimiter": true,
+  "typescript.preferences.quoteStyle": "double",
 }
