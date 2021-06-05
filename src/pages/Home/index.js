@@ -6,6 +6,7 @@ import {
   KeyboardAvoidingView,
   Platform,
   Modal,
+  ActivityIndicator,
 } from "react-native";
 
 import { LinearGradient } from "expo-linear-gradient";
@@ -27,13 +28,36 @@ import {
 } from "./styles";
 import LogoImage from "../../assets/Logo.png";
 import ModalLink from "../../components/ModalLink";
+import api from "../../services/api";
 
 export default function Home() {
   const [inputLink, setInputLink] = useState("");
   const [modalVisible, setModalVisible] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [dataApi, setDataApi] = useState({});
 
-  const handleGerarLink = () => {
-    setModalVisible(true);
+  const handleGerarLink = async () => {
+    setLoading(true);
+
+    try {
+      const response = await api.post("/shorten", {
+        long_url: inputLink,
+      });
+      console.log(response.data);
+      setDataApi(response.data);
+
+      setModalVisible(true);
+
+      Keyboard.dismiss();
+      setLoading(false);
+      setInputLink("");
+    } catch (error) {
+      console.log("Erro ao encurtar link", error);
+      alert("Ops, parece que algo deu errado!");
+      Keyboard.dismiss();
+      setInputLink("");
+      setLoading(false);
+    }
   };
 
   return (
@@ -71,13 +95,17 @@ export default function Home() {
             </ContainerInput>
 
             <ButtonLink onPress={handleGerarLink}>
-              <ButtonLinkText>Gerar Link</ButtonLinkText>
+              {loading ? (
+                <ActivityIndicator color="#121212" size={24} />
+              ) : (
+                <ButtonLinkText>Gerar Link</ButtonLinkText>
+              )}
             </ButtonLink>
           </ContainerContent>
         </KeyboardAvoidingView>
 
         <Modal visible={modalVisible} transparent animationType="slide">
-          <ModalLink onClose={() => setModalVisible(false)} />
+          <ModalLink onClose={() => setModalVisible(false)} data={dataApi} />
         </Modal>
       </LinearGradient>
     </TouchableWithoutFeedback>
