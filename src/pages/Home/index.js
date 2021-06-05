@@ -29,6 +29,7 @@ import {
 import LogoImage from "../../assets/Logo.png";
 import ModalLink from "../../components/ModalLink";
 import api from "../../services/api";
+import { saveLink } from "../../utils/store.links";
 
 export default function Home() {
   const [inputLink, setInputLink] = useState("");
@@ -47,6 +48,8 @@ export default function Home() {
       setDataApi(response.data);
 
       setModalVisible(true);
+
+      saveLink(response.data);
 
       Keyboard.dismiss();
       setLoading(false);
